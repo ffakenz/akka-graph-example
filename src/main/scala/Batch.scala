@@ -1,6 +1,8 @@
-class Batch(inbatch: Seq[AbstractInput]) {
-  val batch = inbatch
+class Batch(val batch : Chunk) {
 
-  def degree(u: Int): LongResult = LongResult(u)
+  def floodFillIteration(matrix: Array[Array[Array[Int]]]): MatrixResult = {
+
+    return MatrixResult(matrix)
+  }
 
 }
