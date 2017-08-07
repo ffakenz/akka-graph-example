@@ -6,6 +6,7 @@ import org.scalatest.{BeforeAndAfterAll, MustMatchers, WordSpecLike}
 import akka.pattern.ask
 import scala.concurrent.duration._
 
+
 import concurrent.Await
 
 class WorkerSpec extends TestKit(ActorSystem("WorkerSpec"))
@@ -20,21 +21,31 @@ with MustMatchers {
     system.shutdown()
   }
 
+
+  def MatrixMock(): Matrix = {
+    val coordinates = for(
+      z <- 0 to 3;
+      y <- 0 to 3;
+      x <- 0 to 3
+    ) yield {
+      if(z == 0 && y == 0 && x == 0)
+        Coordinate(z, y, x, 1)
+      else if (z == 1 && y == 1 && x == 1)
+        Coordinate(z, y, x, 1)
+      else
+        Coordinate(z, y, x)
+    }
+    Matrix(coordinates.toArray)
+  }
+
+
+
   "Worker" should {
     "work" in {
 
-      val x, y, z = 5
-      var matrix = Array.ofDim[Int](x,y,z)
+      val listOfMatrix : Seq[Matrix] = Seq(MatrixMock())
 
-      matrix(0)(0)(0) = 1//we initialize the first water drop
-      println("0,0,0 is: " + matrix(0)(0)(0))
-
-      var a : Seq[Chunk] = Seq()
-      a = a:+(Chunk(matrix))
-      a = a:+(Chunk(matrix))
-      //val inputs = (1 to 10) map { Coordinate(_) }
-
-      val system = new System(DegreeAlgorithm, a, "output")
+      val system = new System(DegreeAlgorithm, listOfMatrix, "output")
       system.addWorkers(1)
       waitAllWorkIsDone(system.resultHandler)
     }

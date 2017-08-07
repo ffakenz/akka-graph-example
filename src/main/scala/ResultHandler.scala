@@ -6,7 +6,15 @@ class ResultHandler(filename: String) extends Actor {
   var isWorkCompleted = false
 
   def receive = {
-    case Result(input, result) => outfile.println(input + "\n" + result.getOrElse("some default") + "\n\n")
+    case Result(input, result) => outfile.println( " INPUT: " +
+      "\n" +
+      input +
+      "\n" +
+      "-------------------------------------------------------------" +
+      "\n " +
+      " OUTPUT: " +
+      "\n" +
+      result.getOrElse("some default") + "\n\n")
     case AllWorkCompleted =>
       outfile.close()
 //      context.system.shutdown()
