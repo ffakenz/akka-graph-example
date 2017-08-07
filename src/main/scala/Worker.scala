@@ -1,6 +1,6 @@
 import akka.actor.{ActorRef, Actor, ActorLogging, ActorPath}
 
-abstract class Worker(graph: Graph, masterLocation: ActorPath)
+abstract class Worker(batch: Batch, masterLocation: ActorPath)
   extends Actor with ActorLogging {
   import MasterWorkerProtocol._
 

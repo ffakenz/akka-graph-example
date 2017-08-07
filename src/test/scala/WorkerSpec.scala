@@ -22,8 +22,12 @@ with MustMatchers {
 
   "Worker" should {
     "work" in {
-      val inputs = (1 to 10) map { SingleVertexInput(_) }
-      val system = new System(DegreeAlgorithm, inputs, "output")
+      var a : List[Coordinate] = List()
+      a = a:+(Coordinate(1,2,3))
+
+      //val inputs = (1 to 10) map { Coordinate(_) }
+
+      val system = new System(DegreeAlgorithm, a, "output")
       system.addWorkers(10)
       waitAllWorkIsDone(system.resultHandler)
     }

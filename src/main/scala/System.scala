@@ -11,9 +11,9 @@ class System(algorithm: AbstractAlgorithm, works: Seq[AbstractInput], outputFile
 
   def addWorkers(num: Int): Unit = {
     for (i <- 1 to num) {
-      master ! WorkerCreated(createWorker())
+      master ! WorkerCreated(createWorker(works))
     }
   }
 
-  private def createWorker() = system.actorOf(Props(new GraphWorker(new Graph, master.path)))
+  private def createWorker(works : Seq[AbstractInput]) = system.actorOf(Props(new BatchWorker(new Batch(works), master.path)))
 }

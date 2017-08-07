@@ -1,4 +1,4 @@
-name := "akka-graph"
+name := "akka-batch"
 
 version := "1.0.0"
 
@@ -12,4 +12,3 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-testkit" % "2.3.4" % "test",
   "org.scalatest" %% "scalatest" % "2.1.3" % "test"
 )
-
