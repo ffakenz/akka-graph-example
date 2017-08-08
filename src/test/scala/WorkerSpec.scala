@@ -29,11 +29,11 @@ with MustMatchers {
       x <- 0 to 3
     ) yield {
       if(z == 0 && y == 0 && x == 0)
-        Coordinate(z, y, x, 1)
+        Water(z, y, x)
       else if (z == 1 && y == 1 && x == 1)
-        Coordinate(z, y, x, 1)
+        Water(z, y, x)
       else
-        Coordinate(z, y, x)
+        Air(z, y, x)
     }
     Matrix(coordinates.toArray)
   }
@@ -45,8 +45,8 @@ with MustMatchers {
 
       val listOfMatrix : Seq[Matrix] = Seq(MatrixMock())
 
-      val system = new System(DegreeAlgorithm, listOfMatrix, "output")
-      system.addWorkers(1)
+      val system = new System(FloodFill, listOfMatrix, "output")
+      system.addWorkers(listOfMatrix.length)
       waitAllWorkIsDone(system.resultHandler)
     }
   }

@@ -6,21 +6,24 @@ trait AbstractAlgorithm {
 }
 
 
-object DegreeAlgorithm extends AbstractAlgorithm {
+object FloodFill extends AbstractAlgorithm {
   override def execute(batch: Batch, input: AbstractInput): Option[AbstractResult] = input match {
-    case m @ Matrix(_) => Some( batch.floodFillIteration(m) )
+    case Matrix(_) => Some( batch.floodFillIteration )
     case _ => None
   }
 }
 
-case class Coordinate(z: Int, y: Int, x: Int, value: Int = 0 ) {
-  override def toString = s"(${z}, ${y}, ${x}) = ${value}"
-}
+
 
 case class Matrix(coordinates: Array[Coordinate]) extends AbstractInput with AbstractResult {
 
   def Neighbor(p: Position, c: Coordinate): Option[Coordinate] =
-    coordinates find { _ == Coordinate(c.z + p.z, c.y + p.y, c.x + p.x) }
+    coordinates find {
+      case coordinate: Coordinate
+          if(coordinate.z == c.z + p.z &&
+            coordinate.y == c.y + p.y &&
+            coordinate.x == c.x + p.x) => true
+    }
 
   def getAdjacentList(c: Coordinate): Array[Coordinate] =
     Array(

@@ -29,3 +29,6 @@ case object Down extends Position {
   override def y: Int = 0;
   override def x: Int = 0;
 }
+
+
+

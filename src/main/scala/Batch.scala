@@ -1,20 +1,18 @@
-
 class Batch(val matrix : Matrix) {
 
-
-  def floodFillIteration(m : Matrix): Matrix = {
+  def floodFillIteration: Matrix = {
 
     val newMatrix = Matrix(matrix.coordinates.clone)
 
     newMatrix.coordinates
-          .filter { _.value == 1 } // water elements
+          .filter { case w: Water => true } // water elements
           .flatMap { newMatrix.getAdjacentList(_) } // list of adjacents
           .distinct
-          .filter { _.value == 0 } // list of air adjacents
+          .filter { case a: Air => true } // list of air adjacents
           .foreach( (c: Coordinate) => { // side effect
             val indx = newMatrix.coordinates.indexOf(c)
-            val newCoordinate = Coordinate(c.z, c.y, c.x, 1)
-            newMatrix.coordinates.update(indx, newCoordinate)
+            val water = Water(c.z, c.y, c.x)
+            newMatrix.coordinates.update(indx, water)
           })
 
     newMatrix
