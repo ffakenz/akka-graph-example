@@ -16,5 +16,5 @@ object MasterWorkerProtocol {
   // Messages to RequestHandler
   case object AllWorkCompleted
   case object IsWorkCompleted
-  case class Result(input: AbstractInput, maybeResult: Option[AbstractResult])
+  case class Result(input: AbstractInput, maybeResult: Option[AbstractOutput])
 }

@@ -1,3 +1,5 @@
+package abstraccions
+
 sealed trait Position { def z: Int; def y: Int; def x: Int }
 case object North extends Position {
   override def z: Int = 0;

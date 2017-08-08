@@ -1,21 +1,41 @@
-trait AbstractInput
-trait AbstractResult
+import abstraccions._
 
+trait AbstractInput
+trait AbstractOutput
 trait AbstractAlgorithm {
-  def execute(batch: Batch, input: AbstractInput): Option[AbstractResult]
+  def execute(input: AbstractInput): Option[AbstractOutput]
 }
 
 
-object FloodFill extends AbstractAlgorithm {
-  override def execute(batch: Batch, input: AbstractInput): Option[AbstractResult] = input match {
-    case Matrix(_) => Some( batch.floodFillIteration )
+case object FloodFill extends AbstractAlgorithm {
+
+  def floodFillIteration(matrix: Matrix): Matrix = {
+
+    val newMatrix = Matrix(matrix.coordinates.clone)
+
+    newMatrix.coordinates
+      .filter { case w: Water => true } // water elements
+      .flatMap { newMatrix.getAdjacentList(_) } // list of adjacents
+      .distinct
+      .filter { case a: Air => true } // list of air adjacents
+      .foreach( (c: Coordinate) => { // side effect
+      val indx = newMatrix.coordinates.indexOf(c)
+      val water = Water(c.z, c.y, c.x)
+      newMatrix.coordinates.update(indx, water)
+    })
+
+    newMatrix
+  }
+
+  override def execute(input: AbstractInput): Option[AbstractOutput] = input match {
+    case i@ Matrix(_) => Some( floodFillIteration(i) )
     case _ => None
   }
 }
 
 
 
-case class Matrix(coordinates: Array[Coordinate]) extends AbstractInput with AbstractResult {
+case class Matrix(coordinates: Array[Coordinate]) extends AbstractInput with AbstractOutput {
 
   def Neighbor(p: Position, c: Coordinate): Option[Coordinate] =
     coordinates find {
