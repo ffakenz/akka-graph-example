@@ -14,7 +14,8 @@ object DegreeAlgorithm extends AbstractAlgorithm {
 }
 
 case class Coordinate(z: Int, y: Int, x: Int, value: Int = 0 ) {
-  override def toString = s"(${z}, ${y}, ${x}) = ${value}"
+  override def toString = s"${value}"
+  //override def toString = s"(${z}, ${y}, ${x}) = ${value}"
 }
 
 case class Matrix(coordinates: Array[Coordinate]) extends AbstractInput with AbstractResult {
@@ -28,14 +29,23 @@ case class Matrix(coordinates: Array[Coordinate]) extends AbstractInput with Abs
       , Neighbor(North, c)
       , Neighbor(West, c)
       , Neighbor(South, c)
-      , Neighbor(Down, c)
       , Neighbor(Up, c)
+      , Neighbor(Down, c)
     ) flatten // clean of None values
 
 
-  override def toString = coordinates.groupBy(_.z).values.map((cs: Array[Coordinate]) => {
-    cs.map(_.toString).mkString("\n")
-  }).mkString("\n")
+
+  override def toString = {
+
+    var s  = new String
+    var previous_y = 0
+    var previous_z = 0
+    for (index <- coordinates.indices){
+      val coordinate = coordinates(index)
+      if (coordinate.y != previous_y) {s+= '\n';previous_y=coordinate.y}
+      if (coordinate.z != previous_z) {s+= '\n';previous_z=coordinate.z}
+        s += coordinate + " "
+    }
+    s
+  }
 }
-
-

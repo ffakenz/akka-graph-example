@@ -32,6 +32,8 @@ with MustMatchers {
         Coordinate(z, y, x, 1)
       else if (z == 1 && y == 1 && x == 1)
         Coordinate(z, y, x, 1)
+      else if (z == 0 && y == 1 && x == 1)
+        Coordinate(z, y, x, 2)
       else
         Coordinate(z, y, x)
     }

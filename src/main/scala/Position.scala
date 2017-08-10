@@ -15,9 +15,9 @@ case object East extends Position {
   override def x: Int = -1;
 }
 case object West extends Position {
-  override def z: Int = -1;
+  override def z: Int = 0;
   override def y: Int = 0;
-  override def x: Int = 0;
+  override def x: Int = 1;
 }
 case object Up extends Position {
   override def z: Int = 1;
